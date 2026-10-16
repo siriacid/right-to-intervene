@@ -6,6 +6,16 @@ This research concept investigates whether an AI-managed production network can 
 
 **Status:** Concept development. This repository currently contains research documentation, not an implemented controller or experimental results. Novelty remains to be verified against the closest prior work.
 
+## Idea showcase
+
+**Start with the [presenter guide](showcase/README.md):** a 30-second pitch, a 90-second pitch, a three-minute presentation route, and a rehearsal checklist.
+
+- [Worked example](showcase/walkthrough.md): a concrete transporter schedule and a one-minute tabletop demonstration. All numbers are illustrative assumptions.
+- [Questions and answers](showcase/questions.md): preparation for questions about SCOT, novelty, baselines, limitations, and the next experiment.
+- [Presenter cue card](showcase/cue-card.md): a compact reference to keep beside you while speaking.
+
+**In one sentence:** Can an AI-managed factory preserve enough time and resources for people to carry out an authorized intervention later?
+
 ## Research question
 
 Can an adaptive oversight system preserve different stakeholders' ability to intervene after a specified response delay, while maintaining productive operation during cascading disruptions?
