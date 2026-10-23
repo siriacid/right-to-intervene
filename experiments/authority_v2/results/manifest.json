@@ -1,0 +1,32 @@
+{
+  "title": "RTI 2.0 causal authority experiment",
+  "synthetic": true,
+  "trials": 4800,
+  "seeds_per_scenario": 160,
+  "horizon": 360,
+  "review_budget_per_120_ticks": 10,
+  "review_delay_ticks": 3,
+  "scenario_names": [
+    "normal",
+    "wear_shift",
+    "sensor_noise",
+    "demand_surge",
+    "combined"
+  ],
+  "policies": [
+    "conservative",
+    "sensor_rule",
+    "reactive",
+    "risk_calibrated",
+    "risk_no_reviews",
+    "oracle"
+  ],
+  "bootstrap_resamples": 1000,
+  "caveats": [
+    "Oracle can see latent state and is excluded from deployable model comparisons.",
+    "Adaptive risk estimator assumes nominal 12% sensor error even in noisy scenario.",
+    "Human review uses a perfect but delayed historical machine-state report.",
+    "Utility weights are research choices, not validated societal harm valuations.",
+    "Hard interlock blocks shipping unverified items for all controllers."
+  ]
+}

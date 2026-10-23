@@ -1,0 +1,15 @@
+# RTI v2 — Methods and Scientific Pre-commitment (retrospective, not preregistered)
+
+**Simulation clock:** 360 discrete ticks per run. Two job-entry streams (A urgent, B standard). A stream A arrival occurs with probability 0.42/tick under ordinary conditions and 0.73 during demand surge; B occurs with probability 0.36/tick ordinarily and 0.53 during demand surge. Demand surge and equipment wear run in the interval ticks 100–259 inclusive. Urgent orders have deadlines 15 ticks from entry, or 12 in surge, while standard orders have 45-tick deadlines. EDF prioritizes the shared work queue.
+
+**Inspection opportunities:** Standard verified inspection every even tick, except offline at (tick modulo 7) equal to 0 or 1 during wear intervals. Rapid verified inspection opportunity every odd tick; if equipment is degraded, activation fails. An immutable outgoing QA condition ensures only completed verification counts as an output.
+
+**Latent fault generation:** Healthy-to-failed probability 0.014 normally / 0.055 during wear. Failed-to-healthy probability 0.105 normally / 0.022 during wear. These values are simulation assumptions, not data-driven estimates. Delayed sensor at tick t indicates state t−1 with independent flip probability 0.12 normally / 0.29 under noise. Human review reports the true state of the equipment at the original request tick, delivered 3 ticks later by default.
+
+**Action space:** `allow` uses rapid inspection; `restrict` declines it; `revoked` declines at especially low health belief; `review` forgoes that tick's rapid-lane action, consumes one of 10 reviews per 120 ticks, and receives historical equipment state later. A baseline conservative policy never uses the rapid lane. Sensor-only and reactive controllers use one-tick delayed green/red reports; reactive freezes after risky action. The risk-aware controller uses a Bayesian filter with nominal transition and sensor noise, and an urgency-dependent threshold. The review signal fusion is heuristic and separated from the core filter.
+
+**Disruption factors:** `normal`, `wear_shift`, `sensor_noise`, `demand_surge`, `combined`. This is not a full factorial design. A seed fixes exogenous arrivals, hidden health transitions, online windows, and sensor errors across policies. Each independent seed constitutes one paired experimental block.
+
+**Primary outcomes:** (1) accepted inspected output; (2) attempted activation of failed rapid lane; (3) human reviews. Secondary: on-time service by priority, queue, mean completed-job delay, Brier score, regret versus oracle, and weighted utility. Zero invalid deliveries are assumed by an external hard interlock. Bootstrap intervals use 1,000 resamples of paired seeds, percentile method, two-sided 95%; no family-wise multiple-comparison correction.
+
+**Important biases:** Designed and analyzed on the same scenario family; no independent out-of-distribution validation, power calculation, calibrated sensor empirical data, or real human intervention. This document was produced after the design rather than preregistered. Do not describe it as preregistration.

@@ -1,0 +1,27 @@
+name: Right to Intervene 2.0
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'experiments/authority_v2/**'
+      - '.github/workflows/authority-v2.yml'
+jobs:
+  reproducibility:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/authority_v2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python experiment.py --trials 160 --horizon 360 --out results
+      - run: python sensitivity.py --trials 80 --out results
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rti2-reproducibility-results
+          path: experiments/authority_v2/results/
+          retention-days: 90

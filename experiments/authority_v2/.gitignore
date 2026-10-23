@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+.venv/
+results/trials.csv
+results/traces_seed0.csv
