@@ -95,6 +95,7 @@ def run_trial(policy: str, scenario: str, seed: int, horizon: int = 360,
     sum_queue = 0; brier = 0.0; total_value = 0
     delay_sum = 0; standard_shipped = 0; urgent_shipped = 0
     missed_urgent = 0; missed_standard = 0
+    conventional_verified = 0
     decision_counts = {'allow':0,'restrict':0,'review':0,'revoked':0}
     history = []
     review_by_shift = [0] * ((horizon + 119) // 120)
@@ -142,7 +143,7 @@ def run_trial(policy: str, scenario: str, seed: int, horizon: int = 360,
         # Conventional inspector processes one unit every two ticks; all shipped
         # items must pass either this verified inspector or the fast verified lane.
         if t % 2 == 0 and trace.standard_online[t] and backlog:
-            finish(backlog.pop(0))
+            finish(backlog.pop(0)); conventional_verified += 1
         # Rapid lane has capacity 1 every two ticks; same final QA interlock.
         if t % 2 == 1 and backlog:
             candidate = backlog[0]
@@ -198,6 +199,9 @@ def run_trial(policy: str, scenario: str, seed: int, horizon: int = 360,
     for j in backlog:
         if j.urgent: missed_urgent += 1
         else: missed_standard += 1
+    # Verification is independent of the authority policy. By construction,
+    # failed rapid-lane attempts never call finish(); assert the hard invariant.
+    assert delivered == conventional_verified + fast_success
     # Meaningful throughput-risk-review objective; not a universal safety metric.
     utility = total_value - 16 * unsafe_attempts - 1.5 * reviews - 0.5 * (missed_urgent + missed_standard)
     metrics = {'scenario':scenario,'policy':policy,'seed':seed,'delivered':delivered,
@@ -210,6 +214,6 @@ def run_trial(policy: str, scenario: str, seed: int, horizon: int = 360,
         'standard_shipped':standard_shipped,'urgent_shipped':urgent_shipped,
         'prediction_brier':round(brier/horizon,5) if policy != 'oracle' else None,
         'utility':round(utility,3), 'review_capacity':review_budget*len(review_by_shift),
-        'hard_interlock_violations':0}
+        'hard_interlock_violations':delivered - conventional_verified - fast_success}
     metrics.update({'n_'+key:val for key,val in decision_counts.items()})
     return metrics,history
