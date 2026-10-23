@@ -1,0 +1,26 @@
+name: Factory oversight experiment
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'experiments/factory_v0_1/**'
+      - '.github/workflows/factory-experiment.yml'
+jobs:
+  test-and-simulate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/factory_v0_1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python experiment.py --trials 100 --horizon 240 --out results
+      - uses: actions/upload-artifact@v4
+        with:
+          name: factory-experiment-results
+          path: experiments/factory_v0_1/results/
+          retention-days: 90
