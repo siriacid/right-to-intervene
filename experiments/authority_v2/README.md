@@ -1,6 +1,6 @@
-# Right to Intervene 2.0 — Causal Risk-Aware Authority Control
+# Right to Intervene 2.0 — Risk-Based Authority Control
 
-**Research status:** Fully reproducible synthetic benchmark, not evidence of alignment of deployed agents or proof of real-world manufacturing safety. Developed as a second experiment that directly addresses v0.1's oracle-data leakage and fixed-vs-adaptive tie.
+**Research status:** Implemented synthetic benchmark with reproduction scripts and exploratory results, not evidence of alignment of deployed agents or proof of real-world manufacturing safety. Developed as a second experiment that directly addresses v0.1's oracle-data leakage and fixed-vs-adaptive tie.
 
 ## Scientific question
 
@@ -27,7 +27,7 @@ No controller may inspect future demand, future equipment states, or contemporan
 | `conservative` | Prohibit all rapid-lane use; risk-minimizing throughput baseline. |
 | `sensor_rule` | Permit rapid lane only when last-tick sensor says healthy. |
 | `reactive` | Sensor rule plus 12-tick freeze following a failed rapid-lane activation. |
-| `risk_calibrated` | Causal Markov prior + delayed noisy observation + imperfect historical human review; risk threshold falls within limits for urgent/deep backlogs. Can allow, restrict, revoke, or request review. **The name does not imply measured probability calibration.** |
+| `risk_calibrated` | Markov prior + delayed noisy observation + perfect historical review with approximate evidence fusion; risk threshold falls within limits for urgent/deep backlogs. Can allow, restrict, revoke, or request review. **The name does not imply measured probability calibration.** |
 | `risk_no_reviews` | Identical risk estimator and dynamic threshold but reviews disabled; critical ablation. |
 | `oracle` | Idealized access to current true machine health, impossible in the deployed information regime. |
 
@@ -43,6 +43,8 @@ The `risk_calibrated` controller is a *heuristic* filtering policy; fusion of de
 - Explicit parameter sensitivity: 80 paired seeds × 12 (budget, delay) settings = **960 additional trials**; combined disruption only.
 
 ## Reproduce
+
+Run from `experiments/authority_v2/` with Python 3.12. See the [root quickstart](../../README.md#reproduce-the-experiment) for checkout and environment setup. Use `--out results-local` to avoid overwriting committed reference tables.
 
 ```bash
 python -m pip install -r requirements.txt
@@ -67,3 +69,4 @@ See [docs/RESULTS.md](docs/RESULTS.md) for measured comparisons and non-claims. 
 ## Directory
 
 `simulator.py` defines exogenous traces and causal policy; `experiment.py` runs the principal benchmark and makes 3 figures; `sensitivity.py` runs review-budget/delay ablations; `tests/` checks reproducibility and constraints; `results/` includes the analyzed summaries; `docs/` provides detailed analysis.
+

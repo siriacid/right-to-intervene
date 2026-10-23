@@ -1,8 +1,8 @@
-# Research notes
+# Original research proposal
 
 **Working topic:** The Right to Intervene: Preserving Human Control in Multi-Agent Production Systems.
 
-**Status:** Proposed direction; no implementation, validation, or experimental results are claimed. Decisions below remain open to revision after baseline experiments and closer literature review.
+**Status:** Historical concept notes from October 16, 2026. The [current benchmark](../experiments/authority_v2/README.md) implements a narrower study of delayed review and equipment-risk estimation. The intervention-feasibility guarantees, stakeholder comparisons, and predictive-control baselines below remain proposed work.
 
 ## 1. Problem and hypothesis
 
@@ -124,4 +124,5 @@ Further extensions include larger networks, distributed feasibility checks, form
 
 ## Documentation provenance
 
-These notes were organized with AI assistance from the project discussion on October 16, 2026. They are exploratory repository documentation for researcher review, not a completed competition research plan. No results, stakeholder interviews, or implemented features are asserted.
+These notes were organized with AI assistance from the project discussion on October 16, 2026. They record the original proposal, not empirical findings or stakeholder interviews.
+

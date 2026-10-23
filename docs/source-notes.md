@@ -1,4 +1,4 @@
-# Source notes
+# Original source notes
 
 These links were inspected during topic development on October 16, 2026. The notes distinguish established work from the proposed project's interpretation. This is an initial reading map, not an exhaustive literature review or a submission-ready bibliography.
 
@@ -32,11 +32,6 @@ The inspected original version studies simulated multi-human gridworlds. Helping
 
 The foundational article develops relevant social groups, interpretative flexibility, and closure mechanisms. Project implication: analyze how different interpretations of successful operation shape permission rules and intervention protections. The publication record and abstract were inspected. Applying SCOT to simulated governance arrangements does not demonstrate real stakeholder acceptance.
 
-## Competition context
-
-- [ISEF judging criteria](https://www.societyforscience.org/isef/grand-award/criteria/): engineering evaluation emphasizes a defined problem, alternative approaches, a prototype, and testing under multiple conditions.
-- [ISEF rules for all projects](https://www.societyforscience.org/isef/international-rules/rules-for-all-projects/): the rules inspected require independent work and acknowledgment of AI assistance, and prohibit generative AI from writing the submitted research plan, abstract, or poster or creating citations. The researcher must read the applicable rules and sources directly before preparing competition materials.
-
 ## Next literature questions
 
 - Which predictive or reachability methods already preserve delayed intervention outcomes?
@@ -45,3 +40,4 @@ The foundational article develops relevant social groups, interpretative flexibi
 - How have prior studies defined multi-stakeholder control and handled incompatible intervention rights?
 
 Do not interpret an unsuccessful search as proof that an idea is new.
+

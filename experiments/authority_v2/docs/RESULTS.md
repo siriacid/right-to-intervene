@@ -21,7 +21,7 @@ The risk policy updates a Markov posterior using delayed noisy equipment observa
 | Reactive | 220.62 | 8.85 | 0.00 | 384.22 |
 | **Risk-aware + human review** | **241.48** | **7.67** | **21.88** | **439.88** |
 | Risk-aware without review | 242.78 | 9.19 | 0.00 | 452.17 |
-| Oracle (unfair upper bound) | 250.99 | 0.00 | 0.00 | 629.26 |
+| Oracle (privileged reference) | 250.99 | 0.00 | 0.00 | 629.26 |
 
 Paired differences, **risk-aware + human review minus baseline**:
 
@@ -49,7 +49,7 @@ This finding suggests an important future mechanism: **value-of-information-awar
 ## Critically important limitations
 
 - This is **not an LLM alignment experiment** and cannot establish human control over advanced AI. There is no deployed LLM, adversarial prompt injection, or real human reviewer.
-- The reference oracle is privileged; comparisons with it are only upper-bound sanity checks.
+- The reference oracle is privileged; it is a diagnostic reference, not a proven optimal bound on every metric.
 - Risk thresholds, reward weights, delay model, and demand model were hand selected. They were not independently calibrated or preregistered; statistical CIs do not protect against specification search or external generalization error.
 - Standard inspector output and rapid lane work are represented by alternating time slots, not calibrated to an actual plant. The two production cells supply streams, rather than a detailed event-level mechanical simulation of each cell's assembly.
 - Sensor-error probabilities are idealized and independent conditional on hidden state. Real sensors can exhibit bias, correlated outages, and drift.
@@ -63,3 +63,4 @@ Make each review conditional on **expected information gain and predicted state-
 ## Reproducibility
 
 Run `python experiment.py --trials 160 --horizon 360 --out results` and `python sensitivity.py --trials 80 --out results`. Files `results/trials.csv` and `results/traces_seed0.csv` are generated artifacts; compact `summary.csv`, `paired_effects.csv`, and `review_sensitivity.csv` are committed. The GitHub Actions workflow regenerates raw data and PNG plots as downloadable CI artifacts.
+

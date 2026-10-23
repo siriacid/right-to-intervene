@@ -1,5 +1,7 @@
 # Factory oversight benchmark (v0.1)
 
+**Historical prototype.** Retained for methodological transparency and reproduction of the initial negative result. Start with the [current v2 benchmark](../authority_v2/README.md) for the active experiment.
+
 This experiment tests adaptive permission gating in a **synthetic** two-stage factory with shared transport, inspection, and constrained buffers. It is not real-world safety validation.
 
 ## Run
@@ -15,4 +17,5 @@ The adaptive policy **has oracle access to future arrivals and to the slowdown s
 
 Outputs are regenerated into `results/trials.csv`, `results/traces.csv`, `results/summary.csv`, `results/results.png`, and `results/tradeoff.png`. Summary confidence intervals are normal approximations over seeds, not paired-difference confidence intervals.
 
-Next: remove oracle access, add delayed/noisy sensor inputs and human review costs, measure paired treatment differences, and test a genuine production-planning action space.
+The v2 benchmark introduces delayed/noisy observations, review costs, and paired treatment differences in a different inspection model. A genuine production-planning action space and explicit intervention-feasibility evaluation remain future work; v0.1 and v2 results should not be pooled.
+

@@ -19,8 +19,17 @@
 
 ## Protocol
 
-Use 400 independent held-out seeds per scenario once pilot code is frozen; separate 80% tuning seeds from a non-overlapping final holdout; make review queue and decision context observable only after the specified delay. Compute paired-bootstrap intervals, correction for multiple primary comparisons, reliability diagrams, and a Pareto frontier with risk vs verified throughput vs human attention. Abandon a superiority claim if an appropriate baseline dominates on these outcomes.
+Use disjoint development and final-evaluation seeds. A provisional target is 400 held-out seeds per scenario after the pilot code is frozen; justify the final count using pilot precision and specify the development-set size separately. Review answers must become available only after the specified delay, with their original observation timestamps retained. Compute paired-bootstrap intervals, correction for multiple primary comparisons, reliability diagrams, and a Pareto frontier with risk vs verified throughput vs human attention. Abandon a superiority claim if an appropriate baseline dominates on these outcomes.
 
 ## Red-team extension (separate threat model)
 
 After establishing physically grounded state transitions, connect a sandboxed untrusted language-model planner that can propose different action sequences but cannot change the safety gate or its raw sensor stream. Introduce adversarially misleading self-reports and test whether independent numeric telemetry prevents bypass. Never present non-adversarial mechanical fault tests as evidence of resistance to deliberate deception.
+
+## Priorities before a publication release
+
+1. **Make the results independently checkable.** Add tests of timestamped observations, review arrival times, and information access, plus an independent evaluator of shipment validity. Existing tests check repeatability, accounting, and selected constraints; they do not prove absence of information leakage.
+2. **Freeze the next comparison.** State exact disjoint tuning and final-evaluation seed sets, primary contrasts, utility-weight sensitivity, and correction for multiple comparisons before running the final evaluation. The 400 held-out seeds above are a proposed target; determine tuning size separately and justify final sample size from pilot precision.
+3. **Test the mechanism.** Start with exact temporal belief updates and myopic value-of-information review selection. Compare against the no-review ablation under matched observations, action opportunities, and budgets before adding a longer-horizon controller.
+4. **Connect back to intervention rights.** In a separate extension, specify a human request such as quarantine, the transport/storage resources it needs, and its completion deadline. Measure lost and preserved intervention feasibility against a predictive controller with identical requirements.
+5. **Package a stable research release.** Record the source commit, exact Python/dependency versions, commands, seeds, and checksums with the raw data; verify the bibliography; choose a license and archive a versioned release with citation metadata. The current repository has no license file or archival identifier.
+
