@@ -1,4 +1,4 @@
-# RTI 2.0: Research Report — 2026-10-23
+# RTI 2.0: Research Report — 2026-10-30
 
 ## Hypothesis and scope
 
