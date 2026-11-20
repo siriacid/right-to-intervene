@@ -59,11 +59,11 @@ The normalization script verifies the upstream source against a pinned SHA-256 b
 
 | File | Contents |
 | --- | --- |
-| `results-local/evaluation/candidates.csv` | One row per unique model solution, with source line numbers, annotation status, answer-match flag, verifier score, answer agreement, and queue ranks. |
+| [Candidate table](results/candidates.csv) · [Download CSV](results/candidates.csv?raw=1) | One row per unique model solution, with source line numbers, annotation status, answer-match flag, verifier score, answer agreement, and queue ranks. |
 | [`results/summary.csv`](results/summary.csv) | Held-out counts and metrics by policy and budget. The runner writes a fresh copy alongside the candidate data. |
 | [`results/manifest.json`](results/manifest.json) | Dataset and runner hashes, evaluation-partition counts, score and label accounting, and paired bootstrap intervals. |
 | [`results/review_recall.png`](results/review_recall.png) | Recall curves for all flagged candidates and for flagged candidates that match the answer key. |
 | [`results/audit.json`](results/audit.json) | Tie-break distributions, label checks, and bounds for unresolved labels. |
 | [`results/robustness.json`](results/robustness.json) | Metrics and paired intervals under different answer string normalization rules. |
 
-The source data and per-candidate outputs are reproducible in the ignored `results-local/` directory. Source attribution and the study's scope are in the methods. [PRM800K archive and license](https://github.com/openai/prm800k/tree/7ecc794703b2877f63226f2477a49b34f9b25163)
+The published candidate table contains derived fields and source row numbers. The download and reproduction steps use the pinned PRM800K source archive. Source attribution and the study's scope are in the methods. [PRM800K archive and license](https://github.com/openai/prm800k/tree/7ecc794703b2877f63226f2477a49b34f9b25163)

@@ -4,16 +4,10 @@ V3 asks a question about human oversight of language models. If a reviewer can i
 
 The test runs offline. It reuses generated solutions, human annotations, and verifier scores published with PRM800K. The Python runner builds and scores review queues. Its measured outcome is **whether a flagged solution enters the queue**. Actual review decisions, repairs, and release outcomes would require a prospective study. [Source archive and schema](https://github.com/openai/prm800k/tree/7ecc794703b2877f63226f2477a49b34f9b25163)
 
-```mermaid
-flowchart LR
-    A["Pinned archive"] --> B["One candidate per unique solution"]
-    B --> C["Select pilot or evaluation problems"]
-    C --> D["Rank the same candidates three ways"]
-    D --> E["Take the same number from each queue"]
-    E --> F["Count archived human flags in each queue"]
-    C --> G["Human judgments and answer key"]
-    G --> F
-```
+1. Verify the archive and merge duplicate annotations into unique candidates.
+2. Split the candidates by problem and rank the evaluation candidates three ways.
+3. Take the same number of candidates from each queue.
+4. Use the archived human labels and answer key to count what each queue surfaced.
 
 ## 1. Turn the archive into a pool of solutions
 
@@ -76,6 +70,6 @@ At 20%, every queue gets one slot and all three have 50% overall recall. Agreeme
 
 ## Trace an actual candidate through the runner
 
-Generate `candidates.csv` using the [reproduction instructions](../README.md). Each row has the source line numbers, all archived annotation outcomes for that candidate, its answer-key-match flag, and its rank in each queue. For the primary budget, a rank of 439 or lower puts the candidate inside that queue. Filter a queue by this cutoff and count the rows marked `flagged` to reproduce its numerator. Within those rows, count `answer_key_match = True` to reproduce the answer-key-match numerator. The same counts are in the [summary table](../results/summary.csv). The [results](RESULTS.md) walk through a source example and explain how the measured effects depend on the budget and dataset.
+Open the [candidate table](../results/candidates.csv) or regenerate it using the [reproduction instructions](../README.md#reproduce-the-study). Each row has the source line numbers, all archived annotation outcomes for that candidate, its answer-key-match flag, and its rank in each queue. For the primary budget, a rank of 439 or lower puts the candidate inside that queue. Filter a queue by this cutoff and count the rows marked `flagged` to reproduce its numerator. Within those rows, count `answer_key_match = True` to reproduce the answer-key-match numerator. The same counts are in the [summary table](../results/summary.csv). The [results](RESULTS.md) walk through a source example and explain how the measured effects depend on the budget and dataset.
 
 The [accuracy checks](AUDIT.md) rerun the comparison with a different definition of matching answers and with negative ratings from the original solution path. They also calculate what happens when the tie order or unresolved labels vary.

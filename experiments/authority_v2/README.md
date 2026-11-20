@@ -44,7 +44,7 @@ The `risk_calibrated` controller is a *heuristic* filtering policy; fusion of de
 
 ## Reproduce
 
-Run from `experiments/authority_v2/` with Python 3.12. See the [root quickstart](../../README.md#reproduce-the-experiment) for checkout and environment setup. Use `--out results-local` to avoid overwriting committed reference tables.
+Run from `experiments/authority_v2/` with Python 3.12. See the [root quickstart](../../README.md#reproduce-v2) for checkout and environment setup. Use `--out results-local` to avoid overwriting committed reference tables.
 
 ```bash
 python -m pip install -r requirements.txt

@@ -8,7 +8,7 @@ The PRM800K Phase 2 archive contains 2,762 human annotation records. The pilot u
 
 After collapsing whitespace, 413 final answers matched the answer key string. Of the 407 with a conclusive label, **80 (19.7%)** were flagged. A flag can reflect an incorrect step, an incomplete derivation, or another issue with the explanation.
 
-For example, one solution correctly answered that exactly two two-digit squares end in 6. It incorrectly identified those squares using \(4^2\) and \(8^2\). The squares are 16 and 36, from \(4^2\) and \(6^2\). An annotator flagged that step. The process verifier queued the solution 330th, inside the 439-slot budget. Answer agreement queued it 954th. See source line 595 in the pinned input.
+For example, one solution correctly answered that exactly two two-digit squares end in 6. It incorrectly identified those squares using 4² and 8². The squares are 16 and 36, from 4² and 6². An annotator flagged that step. The process verifier queued the solution 330th, inside the 439-slot budget. Answer agreement queued it 954th. See source line 595 in the pinned input.
 
 ## What 439 reviews surfaced
 
