@@ -1,4 +1,7 @@
-# Accuracy checks
+# V3 accuracy checks and robustness
+
+[V3 overview](../README.md) · [Mechanism](MECHANISM.md) · [Methods](METHODS.md) · [Results](RESULTS.md) · [Audit](AUDIT.md) · [Next study](../../../docs/NEXT_STUDY.md)
+
 
 The primary run used the rules set after the pilot. These checks were added after that run to find out whether the result depends on answer spelling, the archive's finish codes, or a lucky tie-break. They reuse the same evaluation problems and therefore offer sensitivity evidence rather than independent replication.
 

@@ -1,43 +1,49 @@
-# Original source notes
+# Sources and data provenance — Right to Intervene V3
 
-These links were inspected during topic development on October 16, 2026. The notes distinguish established work from the proposed project's interpretation. This is an initial reading map, not an exhaustive literature review or a submission-ready bibliography.
+V3 is an offline replay on published language-model solutions and human annotations. This page identifies the inputs used by the implementation and separates them from background literature. It is not an exhaustive literature review.
 
-## Predictive safety
+[Project overview](../README.md) · [V3 methods](../experiments/alignment_v3/docs/METHODS.md) · [Accuracy checks](../experiments/alignment_v3/docs/AUDIT.md)
 
-[A predictive safety filter for learning-based control of constrained nonlinear dynamical systems — Kim P. Wabersich and Melanie N. Zeilinger](https://arxiv.org/abs/1812.05506)
+## Primary archive
 
-The paper describes a model-predictive safety filter that accepts or modifies proposed control inputs while considering constraints and uncertainty. It establishes that looking ahead to preserve safety is not, by itself, a new contribution. Project implication: use a genuinely predictive baseline and identify what explicit intervention requirements add. The abstract was inspected; adapting the method requires a closer reading of the full formulation and assumptions.
+- **Repository:** [OpenAI PRM800K](https://github.com/openai/prm800k/tree/7ecc794703b2877f63226f2477a49b34f9b25163).
+- **Pinned revision:** 7ecc794703b2877f63226f2477a49b34f9b25163.
+- **Input path:** prm800k/data/phase2_test.jsonl.
+- **Input SHA-256:** 6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad.
+- **Used fields:** problem text, original generated steps, generated final answer, reference answer, archived verifier score, and annotation finish reason.
+- **Attribution and license:** consult the [pinned source repository](https://github.com/openai/prm800k/tree/7ecc794703b2877f63226f2477a49b34f9b25163) before redistributing its data.
 
-## Multi-agent shielding
+The runner verifies the input hash. Git LFS is required to retrieve the data bytes rather than the small pointer file. Reproduction commands are in the [V3 README](../experiments/alignment_v3/README.md).
 
-[Shield Decentralization for Safe Multi-Agent Reinforcement Learning — NeurIPS 2022](https://papers.neurips.cc/paper_files/paper/2022/hash/57444e14ecd9e2c8f603b4f012ce3811-Abstract-Conference.html)
+The upstream archive was selected for annotation using process-verifier scores. It is not a neutral sample of all generated answers. The V3 pilot/evaluation split is a new problem-level partition within that archive, not a claim about the upstream model's training data.
 
-This work studies decentralized shields for multi-agent systems. Project implication: distributing checks across workstations is established territory; a claimed contribution must specify the new intervention requirements or checking method. The conference abstract was inspected.
+## Annotation and matching definitions
 
-## Human control
+| Source | Use in V3 | Important boundary |
+| --- | --- | --- |
+| [PRM800K schema](https://github.com/openai/prm800k/blob/7ecc794703b2877f63226f2477a49b34f9b25163/README.md) | Interpret records, generated solutions, and stored verifier scores. | The project reuses an existing verifier; it does not train one. |
+| [Phase 2 annotation instructions](https://github.com/openai/prm800k/blob/7ecc794703b2877f63226f2477a49b34f9b25163/prm800k/instructions/instructions_phase_2.pdf) | Interpret archived human flags and the audit's step-rating checks. | A flag can concern an incomplete or unclear explanation as well as an incorrect calculation. |
+| [Published test split](https://github.com/openai/prm800k/blob/7ecc794703b2877f63226f2477a49b34f9b25163/prm800k/math_splits/test.jsonl) | Locate the upstream problem split associated with the archive. | V3 evaluates the available annotated subset. |
+| [Pinned answer normalizer](https://github.com/openai/prm800k/blob/7ecc794703b2877f63226f2477a49b34f9b25163/prm800k/grading/math_normalize.py) | Sensitivity analysis for key matching and answer agreement. | String normalization does not establish mathematical equivalence; the audit documents a misleading match. |
 
-[Human Control: Definitions and Algorithms — Ryan Carey and Tom Everitt, 2023](https://proceedings.mlr.press/v216/carey23a.html)
+Primary matching only collapses whitespace. The normalizer is used in a separate robustness analysis, and its source hash is checked before it is loaded.
 
-The paper formalizes shutdown instructability and analyzes related human-control concepts. Project implication: distinguish authorization, feasibility, and execution, and avoid treating the presence of a stop button as proof of corrigibility. The abstract was inspected; its formal definitions should be studied before claiming theoretical equivalence.
+## Project evidence
 
-## Effects on other stakeholders
+| File | Role |
+| --- | --- |
+| [Methods](../experiments/alignment_v3/docs/METHODS.md) | Split, deduplication, policies, label rules, budgets, and statistical analysis. |
+| [Summary CSV](../experiments/alignment_v3/results/summary.csv) | Counts and metrics for every policy and budget. |
+| [Manifest](../experiments/alignment_v3/results/manifest.json) | Input and runner hashes, sample counts, seeds, and paired intervals. |
+| [Audit output](../experiments/alignment_v3/results/audit.json) | Label checks, unresolved-label bounds, and tie-break analysis. |
+| [Robustness output](../experiments/alignment_v3/results/robustness.json) | Alternate normalization and step-label analyses. |
 
-[When Empowerment Disempowers — Claire Yang, Maya Cakmak, and Max Kleiman-Weiner, original 2025 version](https://arxiv.org/html/2511.04177v1)
+Documentation edits do not constitute a new experiment or an independent replication. The input and runner hashes retain the provenance of the committed results.
 
-The inspected original version studies simulated multi-human gridworlds. Helping one user can reduce another person's environmental influence, while joint empowerment can mitigate that effect at a cost to the intended user's reward. Its methods, results, and limitations motivate measuring outcomes by stakeholder. They do not establish that the same effect occurs in manufacturing. The original version is linked explicitly because later versions may have a different title or content.
+## Background and future literature work
 
-## SCOT
+The earlier production-study bibliography is retained in [V2 related work](../experiments/authority_v2/docs/RELATED_WORK.md). It concerns control and delayed intervention; it is not the main evidence base for V3.
 
-[The Social Construction of Facts and Artefacts — Trevor J. Pinch and Wiebe E. Bijker, 1984](https://research.utwente.nl/en/publications/the-social-construction-of-facts-and-artefacts-or-how-the-sociolo/)
+Before claiming a new review-selection method, compare this project with prior process-supervision, answer-agreement, selective-prediction, and learning-to-defer work. Distinguish selecting outputs for inspection from improving model training, choosing a final answer, or demonstrating effective human correction.
 
-The foundational article develops relevant social groups, interpretative flexibility, and closure mechanisms. Project implication: analyze how different interpretations of successful operation shape permission rules and intervention protections. The publication record and abstract were inspected. Applying SCOT to simulated governance arrangements does not demonstrate real stakeholder acceptance.
-
-## Next literature questions
-
-- Which predictive or reachability methods already preserve delayed intervention outcomes?
-- Can the proposed requirements be expressed directly in an existing constrained optimizer?
-- What additional evidence would establish a computational contribution beyond changing the constraints?
-- How have prior studies defined multi-stakeholder control and handled incompatible intervention rights?
-
-Do not interpret an unsuccessful search as proof that an idea is new.
-
+The current study supports an empirical comparison within the pinned archive. It does not establish a first-of-its-kind algorithm or a solution to general AI alignment.

@@ -1,6 +1,8 @@
-# Proposed RTI 2.1 Study: Value-of-Information Human Interventions
+# Proposed V2 extension — value-of-information reviews
 
-**Current empirical puzzle:** On 160 paired combined-disruption seeds, budgeted human reviews reduce failed rapid-lane activations by ~1.52/trial versus the same risk estimator without reviews, yet reduce our chosen weighted utility by ~12.29 points. The next goal is to understand when a review *actually changes the optimal action*.
+**Historical proposal; not implemented.** This is a possible extension of V2, not the project's current experiment or a report of new results. For the current direction, see the [V3 next-study plan](../../../docs/NEXT_STUDY.md). [V2 overview](../README.md)
+
+**V2 empirical puzzle:** On 160 paired combined-disruption seeds, budgeted human reviews reduce failed rapid-lane activations by ~1.52/trial versus the same risk estimator without reviews, yet reduce our chosen weighted utility by ~12.29 points. The proposed V2 extension would aim to understand when a review *actually changes the optimal action*.
 
 ## Treatment arms (pre-register before coding)
 
@@ -32,4 +34,3 @@ After establishing physically grounded state transitions, connect a sandboxed un
 3. **Test the mechanism.** Start with exact temporal belief updates and myopic value-of-information review selection. Compare against the no-review ablation under matched observations, action opportunities, and budgets before adding a longer-horizon controller.
 4. **Connect back to intervention rights.** In a separate extension, specify a human request such as quarantine, the transport/storage resources it needs, and its completion deadline. Measure lost and preserved intervention feasibility against a predictive controller with identical requirements.
 5. **Package a stable research release.** Record the source commit, exact Python/dependency versions, commands, seeds, and checksums with the raw data; verify the bibliography; choose a license and archive a versioned release with citation metadata. The current repository has no license file or archival identifier.
-

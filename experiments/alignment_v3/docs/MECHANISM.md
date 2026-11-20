@@ -1,4 +1,7 @@
-# How the V3 test works
+# How the V3 review-selection experiment works
+
+[V3 overview](../README.md) · [Mechanism](MECHANISM.md) · [Methods](METHODS.md) · [Results](RESULTS.md) · [Audit](AUDIT.md) · [Next study](../../../docs/NEXT_STUDY.md)
+
 
 V3 asks a question about human oversight of language models. If a reviewer can inspect only a fraction of the generated solutions, which way of choosing those solutions brings more flawed reasoning to their attention? V3 gives three selection rules the same archive and the same number of review slots. It uses the archive's human judgments to count the errors each rule would put in front of a reviewer.
 

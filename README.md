@@ -1,110 +1,89 @@
-# The Right to Intervene
+# Right to Intervene
+## Prioritizing human review of LLM reasoning
 
-**Studying how to spend limited human attention on automated decisions and LLM outputs.**
+**When human review is limited, which model-generated solutions should be checked first?**
 
-Right to Intervene is a Python research project on decision authority under uncertainty. V3 studies oversight of language-model reasoning. V2 studies delayed human review in simulated production.
+Right to Intervene studies how to allocate human oversight to automated outputs. The current version, **V3**, compares review queues for archived language-model solutions to math problems. It asks whether a learned process-verifier score surfaces more human-flagged reasoning than agreement between final answers, under the same review budget.
 
-## V3: Which LLM outputs should a human review?
+A solution can reach the expected answer through a flawed derivation. V3 therefore measures both overall coverage of human flags and coverage of flagged solutions whose answer text matches the reference. The experiment reuses published outputs, verifier scores, and human annotations from PRM800K; it does not train a new model or run a live human-review intervention.
 
-Using 2,195 archived solutions to 370 math problems held out from the V3 pilot, V3 compares review queues based on final-answer agreement and a learned reasoning verifier. At a 20% review budget, the verifier surfaced 403 human-flagged solutions and agreement surfaced 381. The overall gain fell short of the practical target. Among the 80 flagged solutions whose answer text matched the key, the verifier surfaced 30 and agreement surfaced nine.
+[Experiment and reproduction](experiments/alignment_v3/README.md) · [Mechanism](experiments/alignment_v3/docs/MECHANISM.md) · [Methods](experiments/alignment_v3/docs/METHODS.md) · [Results](experiments/alignment_v3/docs/RESULTS.md) · [Audit](experiments/alignment_v3/docs/AUDIT.md)
 
-[V3 overview and reproduction](experiments/alignment_v3/README.md) · [How the test works](experiments/alignment_v3/docs/MECHANISM.md) · [V3 methods](experiments/alignment_v3/docs/METHODS.md) · [V3 results](experiments/alignment_v3/docs/RESULTS.md) · [Accuracy checks](experiments/alignment_v3/docs/AUDIT.md)
+## Current findings
 
-## V2: Delayed human review in production
+The evaluation partition contains **2,195 unique solutions to 370 problems**, held out from the V3 pilot. Archived annotations classify 1,643 as flagged, 481 as cleared, and 71 as unresolved. At a **20% review budget**, each policy receives **439 candidate slots**.
 
-When equipment health is uncertain, does requesting a delayed human review improve the tradeoff between verified output, failed equipment activations, and review workload compared with automated risk estimation alone?
-
-The broader project asks whether people retain the practical ability to intervene after automated decisions commit shared resources. V2 studies one part of that question: the cost and usefulness of delayed information.
-
-## How the benchmark works
-
-Two simulated job streams—urgent and standard—feed a shared inspection queue. Jobs are served by earliest deadline. A conventional inspection lane and a rapid lane have alternating service opportunities.
-
-The rapid lane can fail without the controller immediately knowing. Its sensor reports the previous tick's health with noise. A permission gate decides whether to activate the rapid lane, restrict its use, revoke permission, or request a review. A simulated review returns the true equipment state **at the time of the request**, after a delay; that information may already be stale.
-
-An independent quality-assurance interlock prevents unverified shipments for every policy. Consequently, the risk metric counts **attempted activations of failed equipment**, not defective shipments or injuries.
-
-| Policy | Role |
-| --- | --- |
-| `conservative` | Never use the rapid lane. |
-| `sensor_rule` | Activate when the delayed sensor reports healthy. |
-| `reactive` | Apply the sensor rule with a cooldown after a failed activation. |
-| `risk_calibrated` | Estimate health from past observations and action outcomes; use a dynamic threshold and budgeted reviews. |
-| `risk_no_reviews` | Use the same estimator and threshold with reviews disabled. |
-| `oracle` | Observe current hidden health; a privileged, non-deployable reference. |
-
-Despite its identifier, `risk_calibrated` is a heuristic policy whose probability calibration has not been established. Delayed review evidence is combined approximately, not with exact Bayesian smoothing.
-
-## V2 results
-
-The recorded main experiment contains **4,800 trials**: 160 paired seeds × six policies × five scenarios, each lasting 360 ticks. Policies share the same exogenous trace within each seed and scenario. The scenarios are normal operation, equipment wear, sensor noise, demand surge, and combined disruption.
-
-Mean outcomes in the **combined-disruption** scenario:
-
-| Policy | Verified deliveries | Failed activations | Reviews | Synthetic utility |
+| Review queue | Human flags surfaced / 1,643 | Overall recall | Flagged answer-key matches surfaced / 80 | Match recall |
 | --- | ---: | ---: | ---: | ---: |
-| Conservative | 157.31 | 0.00 | 0.00 | 225.87 |
-| Sensor rule | 227.23 | 21.09 | 0.00 | 211.99 |
-| Reactive | 220.62 | 8.85 | 0.00 | 384.22 |
-| Risk estimator + reviews | 241.48 | 7.67 | 21.88 | 439.88 |
-| Risk estimator without reviews | 242.78 | 9.19 | 0.00 | 452.17 |
-| Oracle reference | 250.99 | 0.00 | 0.00 | 629.26 |
+| Seeded random | 335 | 20.39% | 20 | 25.00% |
+| Final-answer agreement | 381 | 23.19% | 9 | 11.25% |
+| Process verifier | 403 | 24.53% | 30 | 37.50% |
 
-**The central finding is a tradeoff.** Compared with the no-review ablation, adding reviews produces:
+The verifier surfaced **22 additional flags overall**, a **1.34 percentage-point** recall gain over agreement (paired 95% bootstrap interval: **0.43–2.36 points**). Its point estimate did **not** reach the post-pilot practical target of at least two points, although the interval includes that target.
 
-- **1.52 fewer failed activations** per trial (paired 95% bootstrap interval: −1.75 to −1.27).
-- **1.29 fewer verified deliveries** (−1.66 to −0.91).
-- **12.29 fewer utility points** (−16.35 to −7.97).
+The secondary result was larger: among flagged solutions whose final answer text matched the key, the verifier surfaced **30 rather than 9**, a **26.25-point** recall gain (descriptive 95% interval: **13.89–39.19 points**). This subgroup accounts for 21 of the 22 net additional flags.
 
-Reviews reduce risky activations, but their delay and cost make them less favorable under the chosen utility weights. The conservative policy achieves zero failed activations with substantially lower output; no deployable policy is best on every outcome.
+**Interpretation:** the queues differ substantially in which flawed explanations they surface, even when the difference in overall recall is small. This is evidence about review selection in one archive, not proof that a reviewer would detect or fix every selected issue.
 
-Utility is a hand-selected combination of on-time deliveries, late deliveries, failed activations, review requests, and unfinished jobs. It is not a validated measure of societal benefit. The intervals use 1,000 paired bootstrap resamples, capture simulator-seed variation only, and are not adjusted for multiple comparisons.
+See the [committed summary](experiments/alignment_v3/results/summary.csv), [run manifest](experiments/alignment_v3/results/manifest.json), and [full interpretation](experiments/alignment_v3/docs/RESULTS.md). The [audit](experiments/alignment_v3/docs/AUDIT.md) examines answer normalization, step ratings, unresolved labels, and tie-breaking.
 
-See the [full results and limitations](experiments/authority_v2/docs/RESULTS.md), [summary data](experiments/authority_v2/results/summary.csv), and [paired effects](experiments/authority_v2/results/paired_effects.csv).
+## How V3 works
 
-## Reproduce V2
+1. Verify the pinned PRM800K input hash and merge repeated annotations of the same solution.
+2. Assign whole problems to a deterministic pilot or evaluation partition.
+3. Rank the same candidate pool by seeded random order, low final-answer agreement, or low archived process-verifier score.
+4. Select the same number of candidates from each queue at each budget.
+5. Count archived human flags among selected candidates. Use answer keys only for evaluation, not queue selection.
+6. Compare recall using 2,000 paired bootstrap resamples of whole problems.
 
-Use Python 3.12, matching the repository's CI configuration. From a fresh checkout:
+A review budget counts candidate slots, not measured reviewer minutes, model-inference cost, or successful interventions. The [mechanism walkthrough](experiments/alignment_v3/docs/MECHANISM.md) includes a small worked example.
 
-```bash
+## Reproduce the current version
+
+Use Python 3.12. The core V3 runner and its tests use the standard library.
+
+~~~bash
 git clone https://github.com/siriacid/right-to-intervene.git
 cd right-to-intervene
-python -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install -r experiments/authority_v2/requirements.txt
-cd experiments/authority_v2
-
+cd experiments/alignment_v3
 python -m unittest discover -s tests -v
-python experiment.py --trials 160 --horizon 360 --out results
-python sensitivity.py --trials 80 --out results
-```
+~~~
 
-The main runner generates per-trial data, selected seed-zero traces, summary tables, paired comparisons, a manifest, and PNG figures. The sensitivity runner adds 960 trials covering review budgets and delays. These commands overwrite files in the selected output directory; use `--out results-local` to keep the committed reference tables intact.
+For the full replay, install Git LFS and follow the [pinned dataset download instructions](experiments/alignment_v3/README.md#reproduce-the-study). Then, from the same directory:
 
-The repository includes compact reference tables. Full trial data and plots can be regenerated locally or obtained from a completed [GitHub Actions run](https://github.com/siriacid/right-to-intervene/actions). Dependency ranges are declared, but an exact environment lock and an immutable archival release remain to be added.
+~~~bash
+python experiment.py --input results-local/phase2_test.jsonl \
+  --split pilot --out results-local/pilot
+python experiment.py --input results-local/phase2_test.jsonl \
+  --split evaluation --out results-local/evaluation
+~~~
 
-## Repository guide
+Optional plots require Matplotlib. The [experiment README](experiments/alignment_v3/README.md) also gives audit and robustness commands. Use the ignored results-local directory to keep committed reference outputs intact.
 
-| Location | Contents |
+## Scope and limitations
+
+- The source study selected solutions for annotation using process-verifier scores. This is not an unbiased sample of all model outputs.
+- Human flags can include mathematical errors, incomplete arguments, and other explanation problems. They are not a direct measurement of malicious behavior.
+- Answer-key matching primarily uses whitespace-normalized strings. The audit tests another normalizer, but neither is a general proof of mathematical equivalence.
+- The evaluation partition is held out from the V3 pilot. This does not establish independence from the upstream model or verifier development process.
+- Reviews are replayed from annotations; detection, correction, release decisions, reviewer time, and downstream harm are not measured.
+- The bootstrap intervals describe variation in problem composition in this archive. They do not establish generalization to other models or tasks.
+
+## Documentation and experiment history
+
+| Location | Purpose |
 | --- | --- |
-| [V3 LLM oversight](experiments/alignment_v3/README.md) | Review budget replay on archived model outputs with human reasoning labels. |
-| [V2 production benchmark](experiments/authority_v2/README.md) | Environment, policies, parameters, and reproduction details. |
-| [V2 methods](experiments/authority_v2/docs/RESEARCH_PROTOCOL.md) | Retrospective protocol, metrics, assumptions, and biases. |
-| [V2 results](experiments/authority_v2/docs/RESULTS.md) | Scenario comparisons, paired intervals, and sensitivity analysis. |
-| [Proposed V2 follow-up](experiments/authority_v2/docs/NEXT_STUDY.md) | Proposed value-of-information review policies and evaluation plan. |
-| [V2 related work](experiments/authority_v2/docs/RELATED_WORK.md) | Literature map and boundaries of the novelty claim. |
-| [Earlier experiment](experiments/factory_v0_1/README.md) | Historical v0.1 prototype, retained with its oracle-access limitation and negative result. |
-| [Original research notes](docs/research-notes.md) | Broader intervention-feasibility proposal and stakeholder framework; not implemented by the current benchmark. |
-| [Original source notes](docs/source-notes.md) | Background reading from the concept stage. |
+| [Research overview](docs/research-notes.md) | Current question, hypotheses, definitions, and evidence boundaries. |
+| [Sources and data provenance](docs/source-notes.md) | Pinned inputs, annotation provenance, and the scope of related work. |
+| [Next study](docs/NEXT_STUDY.md) | Proposed independent sampling and prospective reviewer evaluation. |
+| [Experiment index](experiments/README.md) | What each version measures and how the versions relate. |
+| [V3 LLM review](experiments/alignment_v3/README.md) | Current experiment, reproduction, methods, results, and audits. |
+| [V2 production simulation](experiments/authority_v2/README.md) | Earlier study of delayed equipment-state reviews. |
+| [v0.1 factory prototype](experiments/factory_v0_1/README.md) | Earlier permission-gating prototype and its limitations. |
 
-## V2 limitations and proposed follow-up
+V2 and v0.1 remain available for reproduction. They use different environments, outcomes, and information assumptions; their results should not be pooled with V3 or described as LLM-review results.
 
-The environment is synthetic, reviews are simulated perfect historical observations, and the quality-assurance interlock is assumed. Faults are exogenous; the model does not include adversarial agents, real workers, or a detailed transport-and-storage network. Thresholds and utility weights were selected during development, with no independent held-out evaluation or preregistration.
-
-A proposed V2 follow-up would request a review only when its expected improvement to a future decision outweighs its delay and opportunity cost. The design compares value-of-information review selection with a no-review policy and an exact temporal belief estimator under matched information and review budgets.
-
-The original intervention-rights question also needs a separate test: explicitly model a human request, its required resources, and its deadline, then measure whether earlier automated commitments make completion impossible.
-
-Research documentation was developed with AI assistance. Scientific claims, source interpretation, and release decisions require researcher review.
-
+Research documentation was developed with AI assistance. Scientific interpretation and publication decisions remain the researcher's responsibility.

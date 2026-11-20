@@ -1,5 +1,7 @@
 # RTI v2 — Retrospective Research Protocol
 
+**Scope: earlier V2 production study.** This document describes the synthetic equipment-review benchmark, not the current [V3 LLM-review experiment](../../alignment_v3/README.md). [V2 overview](../README.md) · [Current project overview](../../../README.md)
+
 **Simulation clock:** 360 discrete ticks per run. Two job-entry streams (A urgent, B standard). A stream A arrival occurs with probability 0.42/tick under ordinary conditions and 0.73 during demand surge; B occurs with probability 0.36/tick ordinarily and 0.53 during demand surge. Demand surge and equipment wear run in the interval ticks 100–259 inclusive. Urgent orders have deadlines 15 ticks from entry, or 12 in surge, while standard orders have 45-tick deadlines. EDF prioritizes the shared work queue.
 
 **Inspection opportunities:** Standard verified inspection every even tick, except offline at (tick modulo 7) equal to 0 or 1 during wear intervals. Rapid verified inspection opportunity every odd tick; if equipment is degraded, activation fails. An immutable outgoing QA condition ensures only completed verification counts as an output.
@@ -13,4 +15,3 @@
 **Primary outcomes:** (1) accepted inspected output; (2) attempted activation of failed rapid lane; (3) human reviews. Secondary: on-time service by priority, queue, mean completed-job delay, Brier score, regret versus oracle, and weighted utility. Zero invalid deliveries are assumed by an external hard interlock. Bootstrap intervals use 1,000 resamples of paired seeds, percentile method, two-sided 95%; no family-wise multiple-comparison correction.
 
 **Important biases:** Designed and analyzed on the same scenario family; no independent out-of-distribution validation, power calculation, calibrated sensor empirical data, or real human intervention. This document was produced after the design rather than preregistered. Do not describe it as preregistration.
-

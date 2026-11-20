@@ -1,4 +1,6 @@
-# RTI 2.0: Research Report — 2026-10-30
+# V2 production results — report dated 2026-10-30
+
+**Scope: earlier V2 production study.** This document describes the synthetic equipment-review benchmark, not the current [V3 LLM-review experiment](../../alignment_v3/README.md). [V2 overview](../README.md) · [Current project overview](../../../README.md)
 
 ## Hypothesis and scope
 
@@ -14,7 +16,7 @@ The risk policy updates a Markov posterior using delayed noisy equipment observa
 
 ## Main results: combined scenario
 
-| Strategy | Inspected deliveries | Unsafe activations | Review requests | Synthetic utility |
+| Strategy | Verified deliveries | Failed-equipment activations | Review requests | Synthetic utility |
 |:--|--:|--:|--:|--:|
 | Conservative | 157.31 | 0.00 | 0.00 | 225.87 |
 | Sensor rule | 227.23 | 21.09 | 0.00 | 211.99 |
@@ -32,7 +34,7 @@ Paired differences, **risk-aware + human review minus baseline**:
 
 ## Scenario dependence (per-trial means)
 
-| Scenario | Risk-aware inspected | Risk-aware unsafe | Sensor-only inspected | Sensor-only unsafe |
+| Scenario | Risk-aware inspected | Risk-aware failed activations | Sensor-only inspected | Sensor-only failed activations |
 |:--|--:|--:|--:|--:|
 | Normal | 278.58 | 2.84 | 278.16 | 4.03 |
 | Wear shift | 242.93 | 5.01 | 239.01 | 10.23 |
@@ -56,11 +58,10 @@ This finding suggests an important future mechanism: **value-of-information-awar
 - The hard QA interlock is an explicit assumption. Safety outcomes count risky machine activations; no physical injury, financial loss, or regulatory outcome is measured.
 - The weighted utility formula embeds normative costs and is subject to sensitivity. Positive utility differences are not proofs of net societal benefit.
 
-## Next falsifiable experiment: value-of-information oversight
+## Proposed V2 extension: value-of-information oversight
 
 Make each review conditional on **expected information gain and predicted state-change before the answer returns**; compare it against the current review policy, its no-review ablation, and an exact hidden-Markov/POMDP baseline. Pre-register a review penalty and a maximum unsafe-activation target; train any parameters on separate seeds; evaluate on held-out condition shifts and counterfactual correlated sensor failures.
 
 ## Reproducibility
 
-Run `python experiment.py --trials 160 --horizon 360 --out results` and `python sensitivity.py --trials 80 --out results`. Files `results/trials.csv` and `results/traces_seed0.csv` are generated artifacts; compact `summary.csv`, `paired_effects.csv`, and `review_sensitivity.csv` are committed. The GitHub Actions workflow regenerates raw data and PNG plots as downloadable CI artifacts.
-
+Run `python experiment.py --trials 160 --horizon 360 --out results-local` and `python sensitivity.py --trials 80 --out results-local`. With those commands, `results-local/trials.csv` and `results-local/traces_seed0.csv` are generated artifacts; compact `summary.csv`, `paired_effects.csv`, and `review_sensitivity.csv` are committed. The GitHub Actions workflow regenerates raw data and PNG plots as downloadable CI artifacts.

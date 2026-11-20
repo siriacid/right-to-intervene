@@ -1,4 +1,9 @@
-# Methods
+# V3 methods — budgeted review of LLM reasoning
+
+[V3 overview](../README.md) · [Mechanism](MECHANISM.md) · [Methods](METHODS.md) · [Results](RESULTS.md) · [Audit](AUDIT.md) · [Next study](../../../docs/NEXT_STUDY.md)
+
+
+**Study type:** offline replay of archived outputs and labels. V3 evaluates review selection; it does not measure live correction, release outcomes, or a newly trained verifier.
 
 ## Question and hypothesis
 

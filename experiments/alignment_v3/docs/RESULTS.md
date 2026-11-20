@@ -1,4 +1,9 @@
-# Results
+# V3 results — which human flags enter the review queue?
+
+[V3 overview](../README.md) · [Mechanism](MECHANISM.md) · [Methods](METHODS.md) · [Results](RESULTS.md) · [Audit](AUDIT.md) · [Next study](../../../docs/NEXT_STUDY.md)
+
+
+**Status:** recorded V3 evaluation results. The documentation revision does not change the underlying experiment or reference outputs.
 
 With 439 review slots, the process verifier surfaced **403** solutions that humans had flagged, compared with **381** for final-answer agreement. The overall gain was below the practical target. Almost all of the gain came from solutions whose final answer matched the answer key, where the verifier surfaced **30 of 80** flags and agreement surfaced **9**.
 

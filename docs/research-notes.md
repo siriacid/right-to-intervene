@@ -1,128 +1,74 @@
-# Original research proposal
+# Research overview — Right to Intervene V3
 
-**Working topic:** The Right to Intervene: Preserving Human Control in Multi-Agent Production Systems.
+**Current study:** prioritizing human review of language-model reasoning under a fixed review budget.
 
-**Status:** Historical concept notes from October 16, 2026. The [current benchmark](../experiments/authority_v2/README.md) implements a narrower study of delayed review and equipment-risk estimation. The intervention-feasibility guarantees, stakeholder comparisons, and predictive-control baselines below remain proposed work.
+[Project introduction](../README.md) · [Experiment](../experiments/alignment_v3/README.md) · [Methods](../experiments/alignment_v3/docs/METHODS.md) · [Results](../experiments/alignment_v3/docs/RESULTS.md)
 
-## 1. Problem and hypothesis
+## Research problem
 
-An AI agent can make an individually permissible decision that consumes resources needed for a later human intervention. Across interconnected workstations, several such decisions may prevent a protected outcome even when the system still accepts the human's command.
+A language model can produce an answer that matches a reference while its explanation contains an error or an incomplete argument. When a reviewer cannot inspect every output, the selection rule determines which issues receive attention. Final-answer agreement and reasoning-verifier scores offer different signals for that decision.
 
-The proposed hypothesis is that explicitly preserving intervention feasibility will reduce failed authorized interventions relative to safety-only predictive control under shared-resource bottlenecks and delayed requests. This protection is expected to have a measurable cost in production, resource utilization, or computation; its practical value must be tested.
+V3 compares those signals on the same archived candidate solutions with the same review-slot budget. It measures whether human-flagged solutions enter the review queue. It does not measure whether real reviewers subsequently identify, repair, or block them.
 
-This separates three properties:
+## Question and hypotheses
 
-- **Permission:** the requester is authorized to issue the command.
-- **Feasibility:** an available sequence of actions can achieve the requested outcome under the stated assumptions.
-- **Execution:** the system actually completes that sequence by the deadline.
+**Primary question:** does prioritizing low process-verifier scores surface more human-flagged solutions than prioritizing low final-answer agreement at a 20% review budget?
 
-Feasibility alone does not establish reliable execution, and neither establishes that a permission arrangement is socially legitimate.
+The post-pilot practical criterion was a point estimate of at least a two-percentage-point recall advantage and a paired 95% interval above zero. The original ten-point target was reduced after inspecting the pilot's attainable recall ceiling and before the evaluation. This history is documented in the [methods](../experiments/alignment_v3/docs/METHODS.md); it is not an independently registered protocol.
 
-## 2. Intervention requirements
+**Secondary question:** do the policies differ more strongly among flagged solutions whose final answer text matches the key? This subgroup is defined for evaluation and is not an input to queue ranking.
 
-Each protected intervention needs a precise specification.
+## What is implemented
 
-| Field | Example for an inspection intervention |
+| Component | V3 implementation |
 | --- | --- |
-| Authorized requester | Quality inspector |
-| Trigger | Suspected defect in an identified batch |
-| Required outcome | Batch isolated in designated quarantine storage |
-| Request delay | A bounded number of simulation steps between detection and arrival of the request |
-| Execution deadline | Before release from the controlled area |
-| Required resources | Transport availability and sufficient quarantine capacity |
-| Persistent constraints | Physical limits and explicitly protected operational requirements |
-| Conflict rule | Human-defined priority or escalation when another intervention competes for the same resources |
+| Inputs | Pinned PRM800K Phase 2 test records: generated solutions, reference answers, archived process-verifier scores, and human annotations. |
+| Unit of review | One unique problem-and-solution pair after merging repeat annotations. |
+| Split | Hash-based assignment of whole problems to pilot or evaluation. |
+| Policies | Seeded random order, low final-answer agreement first, and low process-verifier score first. |
+| Budget | A fixed fraction of all evaluation candidates; one selected candidate consumes one slot. |
+| Labels | Flagged, cleared, or unresolved, derived from archived annotation finish codes. |
+| Outcomes | Overall recall, answer-key-match recall, resolved-review precision, and flags left unreviewed. |
+| Uncertainty | Paired bootstrap of whole problems with the review budget recomputed in each draw. |
+| Audit | Answer normalization, original-path step ratings, unresolved-label bounds, and agreement tie-breaking. |
 
-Delay and deadline are distinct: a request arriving on time may still be impossible to execute before its outcome deadline. Select actual numeric limits from the modeled process and document their justification before the main evaluation.
+Ranking does not use the answer key or human outcomes. Agreement counts the candidate's own answer within its problem's unique-candidate pool. Both comparison policies reuse archived signals; generating those samples and verifier scores is outside the measured budget.
 
-Checking each intervention separately does not prove that all can be executed simultaneously. Define the allowed combinations, priority rules, and resource commitments explicitly. When requirements become mutually infeasible, record the conflict and use an authorized fallback; do not silently weaken the requirements and report success.
+## Evidence
 
-Any guarantee must state the assumed disturbance bounds, state information, model accuracy, available actuators, and planning horizon. Failures outside those assumptions should be reported separately from failures within them.
+The evaluation has 2,195 unique solutions to 370 problems, with 1,643 flagged, 481 cleared, and 71 unresolved. At 20%, every queue selects 439 candidates.
 
-## 3. Proposed system
+- The verifier surfaces 403 flags, agreement 381, and the seeded random queue 335.
+- The verifier-minus-agreement recall difference is 1.34 percentage points, with a paired 95% interval of 0.43–2.36 points.
+- The point estimate misses the two-point practical criterion. The data do not establish that the true effect is below two points, since the interval includes that value.
+- Among 80 flagged candidates whose answers match the key under the primary string rule, the verifier surfaces 30 and agreement nine. The descriptive recall difference is 26.25 points, with a 95% interval of 13.89–39.19 points.
 
-The minimum useful environment is a discrete-event production network with two assembly cells, shared transport, inspection, limited storage, and rework. Different routes and processing times allow upstream choices to affect downstream capacity.
+These are committed replay results, not new measurements from the documentation revision. Counts and denominators are recorded in the [summary](../experiments/alignment_v3/results/summary.csv) and [manifest](../experiments/alignment_v3/results/manifest.json).
 
-Production agents propose scheduling and routing actions. The oversight layer evaluates the resulting commitments and permits, modifies, or rejects the proposals. A predefined fallback controller handles situations where ordinary production cannot continue within the protected requirements.
+## Interpretation
 
-Adaptive authority means that an agent's permitted actions depend on the current ability to preserve intervention. It does not mean that the agent can change the human-approved protections. Revisions to those protections require an explicitly authorized governance process.
+A queue can perform similarly in total recall yet surface a different class of problems. V3's strongest descriptive finding concerns flagged explanations whose final answers match the reference.
 
-Use machine-readable action and state records. Logs should identify the proposal, selected action, applicable intervention requirements, predicted resource usage, reason for intervention, and observed outcome. Log integrity is a useful extension, but not the central research contribution.
+The process verifier is an existing learned comparator, not a new model trained for this project. The contribution here is the budgeted replay comparison, the analysis of which flags each policy surfaces, and the accompanying audit. Novelty relative to the research literature is not established.
 
-## 4. SCOT as an experimental design framework
+## Terminology and claim boundaries
 
-SCOT asks how relevant social groups interpret an artifact and shape its accepted design. Here, the artifact is the oversight system, including its definitions of success, permission structure, and protected interventions.
+- **Human-flagged:** an archived annotation identifies a problem under the specified label rule.
+- **Answer-key match:** equality under a stated string-normalization rule, not proof that the solution is mathematically valid.
+- **Review selected:** a candidate enters a queue; it does not mean a human reviewed or corrected it in this study.
+- **Held out:** excluded from the V3 pilot at the problem level, without establishing upstream training independence.
+- **Oversight:** allocating limited inspection opportunities. V3 does not establish corrigibility, preserved intervention feasibility, resistance to deception, or alignment of a deployed system.
 
-| Group | Initial hypothesis about a valued outcome | Possible intervention to model |
-| --- | --- | --- |
-| Managers | Delivery reliability and productive flexibility | Reprioritize an order within agreed limits |
-| Workers | Manageable workload and control over working conditions | Pause a workstation without violating other protected workload limits |
-| Quality inspectors | Prevent release of questionable products | Quarantine or reinspect a batch |
-| Customers | Maintain agreed service despite competing demand | Invoke a predefined minimum-service commitment |
-| Maintenance engineers | Retain feasible opportunities to service equipment | Take equipment offline within an agreed window |
+Unresolved candidates remain eligible for review and consume slots. They are excluded from denominators requiring a conclusive human label. The source archive's verifier-guided sampling and high flagged prevalence limit external validity.
 
-These are design hypotheses, not findings about actual people. Simulated stakeholder requests must be labeled as simulated; they cannot establish trust, acceptance, or legitimacy among real workers or customers.
+## Relationship to earlier experiments
 
-**Interpretative flexibility:** a highly utilized buffer can signify productive efficiency to one group and a loss of emergency capacity to another.
+[V2](../experiments/authority_v2/README.md) studies delayed, simulated reports of equipment health. Reviews reduce failed activations but also reduce output and the chosen synthetic utility relative to its no-review ablation. [v0.1](../experiments/factory_v0_1/README.md) studies production permission gates and has an oracle-information limitation.
 
-**Closure and stabilization:** compare how different proposed arrangements settle design disagreements—for example, management-centered permissions, separate stakeholder vetoes, and negotiated intervention guarantees. Selecting one arrangement in software does not show that a real social disagreement has been resolved.
+The shared question is how limited oversight changes what gets inspected or acted on. V3 is an offline reasoning-review replay, V2 is a temporal simulation, and v0.1 is an earlier factory prototype. Their numerical results are not directly comparable.
 
-For each arrangement, measure both system performance and the distribution of retained control. Keep physical safety constraints fixed when isolating the effects of governance choices. Explain which commercial or workload commitments are treated as hard requirements, which are negotiable, and why.
+## Next steps
 
-## 5. Comparisons and fair evaluation
+The [current follow-up plan](NEXT_STUDY.md) proposes an independently sampled evaluation, a measured reviewer-time budget, and a prospective test of detection and correction. New protocols should be fixed before evaluating new data. The earlier [V2 value-of-information proposal](../experiments/authority_v2/docs/NEXT_STUDY.md) remains a separate, unimplemented production-study extension.
 
-| Comparator | Role |
-| --- | --- |
-| Production-focused agents with basic physical limits | Expose the failure mechanism |
-| Local safety shields | Test the sufficiency of workstation-level checks |
-| Network-wide predictive safety controller | Strong baseline that already anticipates downstream consequences |
-| Intervention-preserving oversight | Proposed protection for delayed authorized requests |
-| Centralized optimizer with identical intervention requirements | Small-instance reference for feasibility and solution quality |
-
-Use equivalent observations, disturbance assumptions, actuator access, and computation budgets where appropriate. Report unavoidable differences. Retain the same production policies when isolating the effect of the oversight layer.
-
-There are two different claims to test: (1) whether including intervention requirements changes outcomes, and (2) whether a new algorithm enforces those requirements more effectively or efficiently. Beating a controller with a different objective supports the first claim, not automatically the second.
-
-## 6. Conditions and measurements
-
-Vary resource scarcity, inspection slowdowns, request delay, and processing-time prediction error. Include normal operation, individual disruptions, and combinations held out during development. Later tests can examine sensor errors and unfamiliar network layouts.
-
-Report intervention success by stakeholder and intervention type, maximum tolerable delay, physical constraint violations, throughput, delivery delays, recovery time, unused capacity, and computation time. Define denominators and units before evaluation. Requests that were impossible even before the evaluated decision must not be mixed silently with avoidable failures.
-
-For small cases, use an independent exact feasibility check to distinguish unavoidable failures from controller errors. Verify the modeled dynamics against hand-checkable traces. A matching implementation bug in the controller and evaluator must not become evidence of correctness.
-
-Compare methods on paired scenarios and random seeds. Include independent training runs if policies are learned. Choose repetition counts and statistical methods after pilot estimates of variability; preserve raw results, configurations, software versions, and failed runs. Select thresholds using development cases rather than the held-out evaluation cases.
-
-Useful ablations remove delay modeling, shared-resource coordination, or stakeholder-specific requirements one at a time. Each should address a stated mechanism rather than merely increase the number of experiments.
-
-## 7. What would challenge the hypothesis?
-
-- A well-tuned predictive controller already preserves the protected interventions.
-- The proposed method only succeeds by stopping nearly all production.
-- Improvements disappear after observations and computation budgets are matched.
-- Model error defeats the predicted recovery paths.
-- Benefits depend on one hand-designed bottleneck and do not extend to held-out cases.
-
-Such results remain useful: they identify where explicit intervention protection is redundant, too costly, or unreliable.
-
-## 8. Contribution and remaining uncertainty
-
-Predictive safety, multi-agent shielding, corrigibility, and human empowerment are established research areas. The candidate contribution is an explicit treatment of stakeholder-specific intervention requirements, response delays, and production-resource commitments, together with a reproducible evaluation and potentially an efficient checking method.
-
-The inspected sources did not establish this exact combination, but novelty is unconfirmed. The closest methods must be studied before making an originality claim. The immediate uncertainty is whether a strong predictive baseline already solves the intended examples.
-
-## 9. Milestones and extensions
-
-1. Specify one intervention and a minimal example with an independently verified loss of feasibility.
-2. Implement and tune the strong predictive baseline.
-3. Add explicit intervention preservation and measure its costs.
-4. Extend to multiple stakeholders and conflicting requests.
-5. Test held-out disruptions and network layouts; document failure boundaries.
-6. Investigate whether stronger production optimization preserves or consumes intervention capacity.
-
-Further extensions include larger networks, distributed feasibility checks, formal guarantees under bounded disturbances, and a physical demonstration. AGI/ASI and superalignment remain motivating questions beyond what the proposed industrial experiments could establish.
-
-## Documentation provenance
-
-These notes were organized with AI assistance from the project discussion on October 16, 2026. They record the original proposal, not empirical findings or stakeholder interviews.
-
+Earlier concept-stage notes remain available in Git history. This document describes the implemented V3 study and its next research questions.
