@@ -1,16 +1,20 @@
 # The Right to Intervene
 
-**Studying when delayed human review helps—and when it costs more than it helps—in automated production.**
+**Studying how to spend limited human attention on automated decisions and LLM outputs.**
 
-Right to Intervene is a Python research project on decision authority under uncertainty. Its current benchmark compares six policies in a synthetic inspection system with hidden equipment faults, delayed noisy sensors, and a limited budget for simulated human reviews.
+Right to Intervene is a Python research project on decision authority under uncertainty. V3 studies oversight of language-model reasoning. V2 studies delayed human review in simulated production.
 
-**Status:** implemented simulation with exploratory results. The current experiment uses rule-based controllers, not an LLM or a learned production agent. It does not establish real-world safety or solve superalignment.
+## V3: Which LLM outputs should a human review?
 
-## Research question
+Using 2,195 archived solutions to 370 math problems held out from the V3 pilot, V3 compares review queues based on final-answer agreement and a learned reasoning verifier. At a 20% review budget, the verifier surfaced 403 human-flagged solutions and agreement surfaced 381. The overall gain fell short of the practical target. Among the 80 flagged solutions whose answer text matched the key, the verifier surfaced 30 and agreement surfaced nine.
+
+[V3 overview and reproduction](experiments/alignment_v3/README.md) · [How the test works](experiments/alignment_v3/docs/MECHANISM.md) · [V3 methods](experiments/alignment_v3/docs/METHODS.md) · [V3 results](experiments/alignment_v3/docs/RESULTS.md) · [Accuracy checks](experiments/alignment_v3/docs/AUDIT.md)
+
+## V2: Delayed human review in production
 
 When equipment health is uncertain, does requesting a delayed human review improve the tradeoff between verified output, failed equipment activations, and review workload compared with automated risk estimation alone?
 
-The broader project asks whether people retain the practical ability to intervene after automated decisions commit shared resources. The current experiment studies one narrower component: the cost and usefulness of delayed information. It does not yet measure stakeholder-specific intervention feasibility or guaranteed completion of human commands.
+The broader project asks whether people retain the practical ability to intervene after automated decisions commit shared resources. V2 studies one part of that question: the cost and usefulness of delayed information.
 
 ## How the benchmark works
 
@@ -31,7 +35,7 @@ An independent quality-assurance interlock prevents unverified shipments for eve
 
 Despite its identifier, `risk_calibrated` is a heuristic policy whose probability calibration has not been established. Delayed review evidence is combined approximately, not with exact Bayesian smoothing.
 
-## Current results
+## V2 results
 
 The recorded main experiment contains **4,800 trials**: 160 paired seeds × six policies × five scenarios, each lasting 360 ticks. Policies share the same exogenous trace within each seed and scenario. The scenarios are normal operation, equipment wear, sensor noise, demand surge, and combined disruption.
 
@@ -58,7 +62,7 @@ Utility is a hand-selected combination of on-time deliveries, late deliveries, f
 
 See the [full results and limitations](experiments/authority_v2/docs/RESULTS.md), [summary data](experiments/authority_v2/results/summary.csv), and [paired effects](experiments/authority_v2/results/paired_effects.csv).
 
-## Reproduce the experiment
+## Reproduce V2
 
 Use Python 3.12, matching the repository's CI configuration. From a fresh checkout:
 
@@ -84,20 +88,21 @@ The repository includes compact reference tables. Full trial data and plots can 
 
 | Location | Contents |
 | --- | --- |
-| [Current benchmark](experiments/authority_v2/README.md) | Environment, policies, parameters, and reproduction details. |
-| [Methods](experiments/authority_v2/docs/RESEARCH_PROTOCOL.md) | Retrospective protocol, metrics, assumptions, and biases. |
-| [Results](experiments/authority_v2/docs/RESULTS.md) | Scenario comparisons, paired intervals, and sensitivity analysis. |
-| [Next study](experiments/authority_v2/docs/NEXT_STUDY.md) | Proposed value-of-information review policies and evaluation plan. |
-| [Related work](experiments/authority_v2/docs/RELATED_WORK.md) | Literature map and boundaries of the novelty claim. |
+| [V3 LLM oversight](experiments/alignment_v3/README.md) | Review budget replay on archived model outputs with human reasoning labels. |
+| [V2 production benchmark](experiments/authority_v2/README.md) | Environment, policies, parameters, and reproduction details. |
+| [V2 methods](experiments/authority_v2/docs/RESEARCH_PROTOCOL.md) | Retrospective protocol, metrics, assumptions, and biases. |
+| [V2 results](experiments/authority_v2/docs/RESULTS.md) | Scenario comparisons, paired intervals, and sensitivity analysis. |
+| [Proposed V2 follow-up](experiments/authority_v2/docs/NEXT_STUDY.md) | Proposed value-of-information review policies and evaluation plan. |
+| [V2 related work](experiments/authority_v2/docs/RELATED_WORK.md) | Literature map and boundaries of the novelty claim. |
 | [Earlier experiment](experiments/factory_v0_1/README.md) | Historical v0.1 prototype, retained with its oracle-access limitation and negative result. |
 | [Original research notes](docs/research-notes.md) | Broader intervention-feasibility proposal and stakeholder framework; not implemented by the current benchmark. |
 | [Original source notes](docs/source-notes.md) | Background reading from the concept stage. |
 
-## Limitations and next direction
+## V2 limitations and proposed follow-up
 
 The environment is synthetic, reviews are simulated perfect historical observations, and the quality-assurance interlock is assumed. Faults are exogenous; the model does not include adversarial agents, real workers, or a detailed transport-and-storage network. Thresholds and utility weights were selected during development, with no independent held-out evaluation or preregistration.
 
-The next experiment should test **value-of-information review selection**: request a review only when its expected improvement to a future decision outweighs its delay and opportunity cost. Compare it with the no-review policy and an exact temporal belief estimator under matched information and review budgets. Freeze the protocol before evaluating on held-out seeds and shifted conditions.
+A proposed V2 follow-up would request a review only when its expected improvement to a future decision outweighs its delay and opportunity cost. The design compares value-of-information review selection with a no-review policy and an exact temporal belief estimator under matched information and review budgets.
 
 The original intervention-rights question also needs a separate test: explicitly model a human request, its required resources, and its deadline, then measure whether earlier automated commitments make completion impossible.
 

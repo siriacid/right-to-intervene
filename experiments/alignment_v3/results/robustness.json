@@ -1,0 +1,485 @@
+{
+  "source_revision": "7ecc794703b2877f63226f2477a49b34f9b25163",
+  "source_sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+  "normalizer_sha256": "13998bf8c35bdc8a76868c84e1704a78567e2552557fda69027cc186568d3a4d",
+  "split": "evaluation",
+  "candidate_count": 2195,
+  "primary_budget_pct": 20,
+  "tie_and_bootstrap_seed": 314159,
+  "bootstrap_draws": 2000,
+  "agreement_queue_overlap_at_primary_budget": 428,
+  "newly_matched_outcomes": {
+    "flagged": 16,
+    "cleared": 62
+  },
+  "evaluation": {
+    "original": {
+      "answer_key_match_outcomes": {
+        "flagged": 80,
+        "cleared": 327,
+        "unresolved": 6
+      },
+      "budget_sweep": [
+        {
+          "policy": "random",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "random",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 85,
+          "recall_pct": 5.173463177115034,
+          "reviewed_matching_flagged": 3,
+          "matching_recall_pct": 3.75
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 96,
+          "recall_pct": 5.842970176506391,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 5.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 104,
+          "recall_pct": 6.329884357881923,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 5.0
+        },
+        {
+          "policy": "random",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 174,
+          "recall_pct": 10.590383444917833,
+          "reviewed_matching_flagged": 13,
+          "matching_recall_pct": 16.25
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 193,
+          "recall_pct": 11.746804625684723,
+          "reviewed_matching_flagged": 6,
+          "matching_recall_pct": 7.5
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 211,
+          "recall_pct": 12.842361533779671,
+          "reviewed_matching_flagged": 11,
+          "matching_recall_pct": 13.75
+        },
+        {
+          "policy": "random",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 335,
+          "recall_pct": 20.389531345100426,
+          "reviewed_matching_flagged": 20,
+          "matching_recall_pct": 25.0
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 381,
+          "recall_pct": 23.189287888009737,
+          "reviewed_matching_flagged": 9,
+          "matching_recall_pct": 11.25
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 403,
+          "recall_pct": 24.528301886792452,
+          "reviewed_matching_flagged": 30,
+          "matching_recall_pct": 37.5
+        },
+        {
+          "policy": "random",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 658,
+          "recall_pct": 40.04869141813755,
+          "reviewed_matching_flagged": 32,
+          "matching_recall_pct": 40.0
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 761,
+          "recall_pct": 46.31771150334753,
+          "reviewed_matching_flagged": 20,
+          "matching_recall_pct": 25.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 768,
+          "recall_pct": 46.74376141205113,
+          "reviewed_matching_flagged": 57,
+          "matching_recall_pct": 71.25
+        }
+      ],
+      "paired_bootstrap": {
+        "recall": {
+          "low_pp": 0.42525404770518893,
+          "high_pp": 2.363195386702849,
+          "valid_draws": 2000
+        },
+        "matching_recall": {
+          "low_pp": 13.88888888888889,
+          "high_pp": 39.1916023166023,
+          "valid_draws": 2000
+        }
+      }
+    },
+    "normalized_answer_key_match_only": {
+      "answer_key_match_outcomes": {
+        "flagged": 96,
+        "cleared": 389,
+        "unresolved": 6
+      },
+      "budget_sweep": [
+        {
+          "policy": "random",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "random",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 85,
+          "recall_pct": 5.173463177115034,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 4.166666666666667
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 96,
+          "recall_pct": 5.842970176506391,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 4.166666666666667
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 104,
+          "recall_pct": 6.329884357881923,
+          "reviewed_matching_flagged": 5,
+          "matching_recall_pct": 5.208333333333333
+        },
+        {
+          "policy": "random",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 174,
+          "recall_pct": 10.590383444917833,
+          "reviewed_matching_flagged": 14,
+          "matching_recall_pct": 14.583333333333334
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 193,
+          "recall_pct": 11.746804625684723,
+          "reviewed_matching_flagged": 6,
+          "matching_recall_pct": 6.25
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 211,
+          "recall_pct": 12.842361533779671,
+          "reviewed_matching_flagged": 14,
+          "matching_recall_pct": 14.583333333333334
+        },
+        {
+          "policy": "random",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 335,
+          "recall_pct": 20.389531345100426,
+          "reviewed_matching_flagged": 21,
+          "matching_recall_pct": 21.875
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 381,
+          "recall_pct": 23.189287888009737,
+          "reviewed_matching_flagged": 9,
+          "matching_recall_pct": 9.375
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 403,
+          "recall_pct": 24.528301886792452,
+          "reviewed_matching_flagged": 35,
+          "matching_recall_pct": 36.458333333333336
+        },
+        {
+          "policy": "random",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 658,
+          "recall_pct": 40.04869141813755,
+          "reviewed_matching_flagged": 35,
+          "matching_recall_pct": 36.458333333333336
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 761,
+          "recall_pct": 46.31771150334753,
+          "reviewed_matching_flagged": 26,
+          "matching_recall_pct": 27.083333333333332
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 768,
+          "recall_pct": 46.74376141205113,
+          "reviewed_matching_flagged": 66,
+          "matching_recall_pct": 68.75
+        }
+      ],
+      "paired_bootstrap": {
+        "recall": {
+          "low_pp": 0.42525404770518893,
+          "high_pp": 2.363195386702849,
+          "valid_draws": 2000
+        },
+        "matching_recall": {
+          "low_pp": 16.32597604259095,
+          "high_pp": 38.543037280701746,
+          "valid_draws": 2000
+        }
+      }
+    },
+    "normalized_answer_key_match_and_agreement": {
+      "answer_key_match_outcomes": {
+        "flagged": 96,
+        "cleared": 389,
+        "unresolved": 6
+      },
+      "budget_sweep": [
+        {
+          "policy": "random",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 0,
+          "reviewed": 0,
+          "reviewed_flagged": 0,
+          "recall_pct": 0.0,
+          "reviewed_matching_flagged": 0,
+          "matching_recall_pct": 0.0
+        },
+        {
+          "policy": "random",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 85,
+          "recall_pct": 5.173463177115034,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 4.166666666666667
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 97,
+          "recall_pct": 5.9038344491783326,
+          "reviewed_matching_flagged": 4,
+          "matching_recall_pct": 4.166666666666667
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 5,
+          "reviewed": 109,
+          "reviewed_flagged": 104,
+          "recall_pct": 6.329884357881923,
+          "reviewed_matching_flagged": 5,
+          "matching_recall_pct": 5.208333333333333
+        },
+        {
+          "policy": "random",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 174,
+          "recall_pct": 10.590383444917833,
+          "reviewed_matching_flagged": 14,
+          "matching_recall_pct": 14.583333333333334
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 195,
+          "recall_pct": 11.868533171028606,
+          "reviewed_matching_flagged": 6,
+          "matching_recall_pct": 6.25
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 10,
+          "reviewed": 219,
+          "reviewed_flagged": 211,
+          "recall_pct": 12.842361533779671,
+          "reviewed_matching_flagged": 14,
+          "matching_recall_pct": 14.583333333333334
+        },
+        {
+          "policy": "random",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 335,
+          "recall_pct": 20.389531345100426,
+          "reviewed_matching_flagged": 21,
+          "matching_recall_pct": 21.875
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 382,
+          "recall_pct": 23.25015216068168,
+          "reviewed_matching_flagged": 9,
+          "matching_recall_pct": 9.375
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 20,
+          "reviewed": 439,
+          "reviewed_flagged": 403,
+          "recall_pct": 24.528301886792452,
+          "reviewed_matching_flagged": 35,
+          "matching_recall_pct": 36.458333333333336
+        },
+        {
+          "policy": "random",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 658,
+          "recall_pct": 40.04869141813755,
+          "reviewed_matching_flagged": 35,
+          "matching_recall_pct": 36.458333333333336
+        },
+        {
+          "policy": "answer_agreement",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 769,
+          "recall_pct": 46.80462568472307,
+          "reviewed_matching_flagged": 24,
+          "matching_recall_pct": 25.0
+        },
+        {
+          "policy": "process_verifier",
+          "budget_pct": 40,
+          "reviewed": 878,
+          "reviewed_flagged": 768,
+          "recall_pct": 46.74376141205113,
+          "reviewed_matching_flagged": 66,
+          "matching_recall_pct": 68.75
+        }
+      ],
+      "paired_bootstrap": {
+        "recall": {
+          "low_pp": 0.30137730489813647,
+          "high_pp": 2.1965283448681214,
+          "valid_draws": 2000
+        },
+        "matching_recall": {
+          "low_pp": 15.997727272727273,
+          "high_pp": 38.46153846153846,
+          "valid_draws": 2000
+        }
+      }
+    }
+  }
+}

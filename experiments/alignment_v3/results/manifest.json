@@ -1,0 +1,115 @@
+{
+  "source_revision": "7ecc794703b2877f63226f2477a49b34f9b25163",
+  "source_sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+  "runner_sha256": "f00a649a6527640685c8e891adb8c22f08e5b9f3b3aa3043f72b3a7fd309f9af",
+  "python_version": "3.12.14",
+  "split": "evaluation",
+  "seed": 314159,
+  "bootstraps": 2000,
+  "primary_budget_pct": 20,
+  "budgets_pct": [
+    0,
+    5,
+    10,
+    20,
+    40
+  ],
+  "archive_annotation_rows": 2762,
+  "partition_annotation_rows": 2232,
+  "unique_candidates": 2195,
+  "unique_problems": 370,
+  "human_outcomes": {
+    "flagged": 1643,
+    "unresolved": 71,
+    "cleared": 481
+  },
+  "annotation_finish_reasons": {
+    "found_error": 1674,
+    "give_up": 74,
+    "solution": 484
+  },
+  "candidates_with_conflicting_decisive_annotations": 0,
+  "candidates_with_multiple_process_scores": 0,
+  "candidate_pool_size_by_problem": {
+    "6": 353,
+    "5": 11,
+    "3": 2,
+    "4": 4
+  },
+  "primary_queue_overlap": 127,
+  "strata": [
+    {
+      "answer_key": "answer_match",
+      "pool": "nonunanimous",
+      "outcome": "cleared",
+      "candidates": 321
+    },
+    {
+      "answer_key": "answer_match",
+      "pool": "nonunanimous",
+      "outcome": "flagged",
+      "candidates": 80
+    },
+    {
+      "answer_key": "answer_match",
+      "pool": "nonunanimous",
+      "outcome": "unresolved",
+      "candidates": 6
+    },
+    {
+      "answer_key": "answer_match",
+      "pool": "unanimous",
+      "outcome": "cleared",
+      "candidates": 6
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "nonunanimous",
+      "outcome": "cleared",
+      "candidates": 138
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "nonunanimous",
+      "outcome": "flagged",
+      "candidates": 1546
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "nonunanimous",
+      "outcome": "unresolved",
+      "candidates": 63
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "unanimous",
+      "outcome": "cleared",
+      "candidates": 16
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "unanimous",
+      "outcome": "flagged",
+      "candidates": 17
+    },
+    {
+      "answer_key": "answer_mismatch",
+      "pool": "unanimous",
+      "outcome": "unresolved",
+      "candidates": 2
+    }
+  ],
+  "paired_bootstrap": {
+    "recall": {
+      "low_pp": 0.42525404770518893,
+      "high_pp": 2.363195386702849,
+      "valid_draws": 2000
+    },
+    "matching_recall": {
+      "low_pp": 13.88888888888889,
+      "high_pp": 39.1916023166023,
+      "valid_draws": 2000
+    }
+  },
+  "matplotlib_version": "3.11.2"
+}

@@ -1,0 +1,125 @@
+{
+  "source_sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+  "budget_pct": 20,
+  "review_slots": 439,
+  "uniform_tie_break_sensitivity": {
+    "all_flagged": {
+      "answer_agreement": {
+        "cutoff_score": 0.16666666666666666,
+        "slots_at_cutoff": 439,
+        "candidates_tied_at_cutoff": 1103,
+        "target_candidates_tied_at_cutoff": 962,
+        "guaranteed_target_reviews_before_cutoff": 0,
+        "expected_target_reviews": 382.8812330009066,
+        "central_95_pct_target_review_count": [
+          372,
+          393
+        ],
+        "possible_target_review_count": [
+          298,
+          439
+        ]
+      },
+      "process_verifier": {
+        "cutoff_score": 3.512083625407146e-05,
+        "slots_at_cutoff": 1,
+        "candidates_tied_at_cutoff": 1,
+        "target_candidates_tied_at_cutoff": 1,
+        "guaranteed_target_reviews_before_cutoff": 402,
+        "expected_target_reviews": 403.0,
+        "central_95_pct_target_review_count": [
+          403,
+          403
+        ],
+        "possible_target_review_count": [
+          403,
+          403
+        ]
+      }
+    },
+    "answer_key_matched_flagged": {
+      "answer_agreement": {
+        "cutoff_score": 0.16666666666666666,
+        "slots_at_cutoff": 439,
+        "candidates_tied_at_cutoff": 1103,
+        "target_candidates_tied_at_cutoff": 24,
+        "guaranteed_target_reviews_before_cutoff": 0,
+        "expected_target_reviews": 9.552130553037172,
+        "central_95_pct_target_review_count": [
+          5,
+          14
+        ],
+        "possible_target_review_count": [
+          0,
+          24
+        ]
+      },
+      "process_verifier": {
+        "cutoff_score": 3.512083625407146e-05,
+        "slots_at_cutoff": 1,
+        "candidates_tied_at_cutoff": 1,
+        "target_candidates_tied_at_cutoff": 0,
+        "guaranteed_target_reviews_before_cutoff": 30,
+        "expected_target_reviews": 30.0,
+        "central_95_pct_target_review_count": [
+          30,
+          30
+        ],
+        "possible_target_review_count": [
+          30,
+          30
+        ]
+      }
+    }
+  },
+  "possible_process_minus_agreement_flagged_counts_after_resolving_unknowns": {
+    "all_flagged": [
+      12,
+      31
+    ],
+    "answer_key_matched_flagged": [
+      20,
+      22
+    ]
+  },
+  "alternate_step_rating_labels": {
+    "annotations_with_bad_original_step_by_finish_reason": {
+      "found_error": 1674,
+      "give_up": 25,
+      "solution": 1
+    },
+    "reclassified_candidates_by_original_outcome": {
+      "unresolved": 23,
+      "cleared": 1
+    },
+    "solution_annotations_with_bad_original_step_source_lines": [
+      998
+    ],
+    "policies": {
+      "random": {
+        "flagged_total": 1667,
+        "reviewed_flagged": 342,
+        "recall_pct": 20.515896820635874,
+        "matching_flagged_total": 81,
+        "reviewed_matching_flagged": 20,
+        "matching_recall_pct": 24.691358024691358
+      },
+      "answer_agreement": {
+        "flagged_total": 1667,
+        "reviewed_flagged": 388,
+        "recall_pct": 23.275344931013798,
+        "matching_flagged_total": 81,
+        "reviewed_matching_flagged": 9,
+        "matching_recall_pct": 11.11111111111111
+      },
+      "process_verifier": {
+        "flagged_total": 1667,
+        "reviewed_flagged": 409,
+        "recall_pct": 24.535092981403718,
+        "matching_flagged_total": 81,
+        "reviewed_matching_flagged": 30,
+        "matching_recall_pct": 37.03703703703704
+      }
+    }
+  }
+}
